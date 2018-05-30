@@ -1,0 +1,26 @@
+<body>
+  <table id="table" >  
+      <thead>  
+          <tr>  
+              <th>Product Name</th>  
+              <th>Dept</th>  
+              <th>Qty Available</th>  
+              <th>Price</th>  
+              
+          </tr>  
+      </thead>  
+       <tbody>  
+       <% print.forEach(function (product) { %>
+          <tr>  
+              <td><%= product.product_name %></td>  
+              <td><%= product.department_name %></td>
+              <td><%= product.instock_quantity %></td>
+              <td><%= product.consumer_price %></td>
+              
+          </tr>                                   
+       <% }) %>
+       </tbody>
+  </table>   
+</body>
+
+</html>

@@ -74,22 +74,24 @@ var track = {
     consumer_price: request.body.consumer_price,
     business_cost: request.body.business_cost } )
 });
-/*
-router.get('/data', function(req, res){
+
+app.get('/data', function(req, res){
   var obj = {};
 
-    connection.query('SELECT * FROM favorite_songs', function(err, result) {
+    let query = connection.query('SELECT * FROM products', function(err, result) {
 
         if(err){
             throw err;
         } else {
             obj = {print: result};
-            res.render('print', obj);                
+            console.log(obj);
+            res.render('print', obj); 
+                   
         }
     });
 
 });
-*/
+
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
 });
