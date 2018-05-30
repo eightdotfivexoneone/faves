@@ -37,54 +37,75 @@
         <table class="u-full-width">
             <thead>
               <h1>Join Us</h1>
-<p class="lead">Enter your email to join
-  <strong><%=data%> </strong> others on our mail list.</p>
+<p class="lead">hmm
+  <strong></strong> remnant</p>
   <br>
               <h2>Current Favorite Songs</h2>
               <tr>
-                <th>Song Name </th>
-                <th>Artist</th>
-                <th>Score</th>
-                <th>Genre</th>
-                <th></th>
+                <th>Product Name</th>
+                <th>Image_Url</th>
+                <th>Desc</th>
+                <th>Dept</th>                
+                <th>In-stock Qty</th>
+                <th>Consumer Price</th>
+                <th>Biz Cost</th>
+                
               </tr>
             </thead>
             <tbody id="song-list">
-              <t>
-                <td><%=song%></td>
-                <td><%=artis%></td>
-                <td><%=score%></td>
-                <td><%=genre%></td>
+              <tr>
+                <td><%=product_name%></td>
+                <td><%=image_url%></td>
+                <td><%=product_desc%></td>
+                <td><%=department_name%></td>
+                <td><%=instock_quantity%></td>
+                <td><%=consumer_price%></td>
+                <td><%=business_cost%></td>
               </tr>
             </tbody>
           </table>
     </div>
   <br><br>
-    <h4>Add Song</h4>
-    <form id="song-input-form" name="song-insert" action="/register" method="POST">
-      <div>
-        <label for="name">Song Name</label>
-        <input type="text" id="song-name-input" class="u-full-width" name="song">
-      </div>
+  <h4>Add Product</h4>
+  <form id="song-input-form" name="song-insert" action="/register" method="POST">
+    <div>
+      <label for="name">Product Name</label>
+      <input type="text" id="prod-name-input" class="u-full-width" name="product_name">
+    </div>
 
-      <div>
-        <label for="artis">Artist</label>
-        <input type="text" id="artis-input" class="u-full-width" name="artis">
-      </div>
+    <div>
+      <label for="artis">Image_URL</label>
+      <input type="text" id="image-url-input" class="u-full-width" name="image_url">
+    </div>
 
-      <div>
-        <label for="score">Score</label>
-        <input type="text" id="score-input" class="u-full-width" name="score">
-      </div>
+    <div>
+      <label for="artis">Product Desc</label>
+      <input type="text" id="prod-desc-input" class="u-full-width" name="product_desc">
+    </div>
 
-      <div>
-        <label for="genre">Genre</label>
-        <input type="text" id="genre-input" class="u-full-width" name="genre">
-      </div>
+    <div>
+      <label for="score">Dept.</label>
+      <input type="text" id="dept-input" class="u-full-width" name="department_name">
+    </div>
 
-      <div>
-        <input type="submit" value="Submit" class="u-full-width">
-      </div>
+    <div>
+      <label for="qty">instock quantity</label>
+      <input type="text" id="genre-input" class="u-full-width" name="instock_quantity">
+    </div>
+
+    <div>
+      <label for="price">Consumer Price</label>
+      <input type="text" id="consumer_price" class="u-full-width" name="consumer_price">
+    </div>
+
+    <div>
+      <label for="price">Business Cost</label>
+      <input type="text" id="business_cost" class="u-full-width" name="business_cost">
+    </div>
+
+    <div>
+      <input type="submit" value="Submit" class="u-full-width">
+    </div>
 
     </form>
 
