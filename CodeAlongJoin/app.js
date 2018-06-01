@@ -1,7 +1,8 @@
-var express = require('express');
-var mysql = require("mysql");
-var bodyParser = require('body-parser');
-var app = express();
+const express = require('express');
+const mysql = require("mysql");
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const app = express();
 
 // Config
 app.set("view engine", "ejs");
@@ -26,6 +27,19 @@ var connection = mysql.createConnection({
   database: "bamazon_app"
 });
 
+
+app.use((req, res, next) => {
+  var now = new Date().toString();
+  var log = `${now}: ${req.method} ${req.url}`;
+  console.log(log);
+  fs.appendFile('server.log', log + '\n', (err) => {
+    if (err) {
+      console.log('Unable to append to server.log.')
+    }
+  });
+  
+  next();
+});
 
 
 app.get("/", (req, results) => {
