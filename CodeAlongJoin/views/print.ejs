@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <h1 class="display-3 text-center my-4">Products</h1>
+        <h1 class="display-3 text-center my-4">Our Products</h1>
     </header>
     <div class="container">
         <div class="row">
@@ -40,7 +40,7 @@
         <div class="row">
                 <% print.forEach(function (product) { %>
 
-                <div class="card m-3 bg-light" style="width: 18rem;">
+                <div class="card m-3 bg-light" style="width: 18rem;" id=<%= product.item_id %>>
                         <img class="card-img-top" <%- product.image_url %> alt="Card image cap">
                         <div class="card-body">
                           <h5 class="card-title"><%= product.product_name %></h5>
@@ -51,8 +51,8 @@
                           <li class="list-group-item bg-light">In Stock: <%= product.instock_quantity %></li>
                         </ul>
                         <div class="card-body">
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
+                        <a href="/purchase" class="btn btn-success">Purchase</a>
+                        <a href="#" class="card-link">Another link</a>
                         </div>
                       </div>
                     <% }) %>

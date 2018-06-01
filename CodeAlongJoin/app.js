@@ -78,7 +78,7 @@ var track = {
 app.get('/data', function(req, res){
   var obj = {};
 
-    let query = connection.query('SELECT * FROM products', function(err, result) {
+    let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function(err, result) {
 
         if(err){
             throw err;
@@ -91,6 +91,35 @@ app.get('/data', function(req, res){
     });
 
 });
+
+
+
+app.get("/purchase", (request, results) => {
+  // var track = {
+  //   product_name: request.body.product_name,
+  //   image_url: request.body.image_url,
+  //   product_desc: request.body.product_desc,
+  //   department_name: request.body.department_name,
+  //   instock_quantity: request.body.instock_quantity,
+  //   consumer_price: request.body.consumer_price,
+  //   business_cost: request.body.business_cost
+  // };
+    console.log(JSON.stringify(request.body));
+    // var s = {email: req.body.email};
+    // console.log("Post Request Sent to Register", req.body);
+    // var qinsert = "INSERT INTO favorite_songs (song, artis, score, genre) VALUES("+ track.title +", "+ track.artist +", " + track.sc + "," + track.g + ")";
+    
+    // var sql = `INSERT INTO products SET ?`;
+    // let query = connection.query(sql, track, (err, result) => {
+    //   if(err){
+    //     throw err;
+    //   }
+    //   console.log(result);
+    // })
+    // 
+    results.render('buy', request )
+  });
+  
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
