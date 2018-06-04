@@ -3,6 +3,9 @@ const mysql = require("mysql");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
+const expressValidator = require('express-validator');
+const { check, validationResult } = require('express-validator/check');
+const { matchedData, sanitize } = require('express-validator/filter');
 
 // Config
 app.set("view engine", "ejs");
@@ -57,6 +60,15 @@ app.get("/", (req, results) => {
 
 
 app.post("/register", (request, results) => {
+
+// Enforce required fields using express-validator
+request.checkBody('product_name', 'Product Name is Required').notEmpty();
+request.checkBody('product_desc', 'Product Description is Required').notEmpty();
+request.checkBody('department_name', 'Department Name is Required').notEmpty();
+request.checkBody('instock_quantity', 'In-stock Quantity is Required').notEmpty();
+request.checkBody('consumer_price', 'Consumer Price is Required').notEmpty();
+request.checkBody('business_cost', 'Business Cost Quantity is Required').notEmpty();
+
 var track = {
   product_name: request.body.product_name,
   image_url: request.body.image_url,
@@ -66,6 +78,7 @@ var track = {
   consumer_price: request.body.consumer_price,
   business_cost: request.body.business_cost
 };
+
   console.log(JSON.stringify(request.body));
   // var s = {email: req.body.email};
   // console.log("Post Request Sent to Register", req.body);
