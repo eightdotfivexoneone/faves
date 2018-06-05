@@ -147,6 +147,75 @@ app.get("/purchase", (request, results) => {
     results.render('buy', request )
   });
   
+  // Adam
+  // Adam's management console code ==================================================================
+app.get('/manager', function(req, res){
+  var obj = {};
+  let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function(err, result) {
+    if(err){
+        throw err;
+    } else {
+        obj = {print: result};
+        console.log(obj);
+        res.render('report1', obj);     
+    } 
+  }); 
+});
+
+/////////////////////////////////Bowden working here
+app.get('/customer', function(req, res){
+  var obj = {};
+    let query = connection.query('SELECT * FROM users WHERE user_id=1', function(err, result) {
+        if(err){
+            throw err;
+        } else {
+            obj = {print: result};
+            console.log(obj);
+            res.render('customer', obj); 
+                   
+        }
+    });
+});
+app.get('/jaguar', function(req, res){
+  var obj = {};
+    let query = connection.query("SELECT * FROM products WHERE instock_quantity > 0 AND product_name= 'Jaguar' ORDER BY consumer_price DESC", function(err, result) {
+        if(err){
+            throw err;
+        } else {
+            obj = {print: result};
+            console.log(obj);
+            res.render('print', obj); 
+                   
+        }
+    });
+});
+app.get('/Lambo', function(req, res){
+  var obj = {};
+    let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function(err, result) {
+        if(err){
+            throw err;
+        } else {
+            obj = {print: result};
+            console.log(obj);
+            res.render('print', obj); 
+                   
+        }
+    });
+});
+app.get('/Ferrari', function(req, res){
+  var obj = {};
+    let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function(err, result) {
+        if(err){
+            throw err;
+        } else {
+            obj = {print: result};
+            console.log(obj);
+            res.render('print', obj); 
+                   
+        }
+    });
+});
+
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
