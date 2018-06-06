@@ -188,11 +188,12 @@ app.get('/Ferrari', function(req, res){
     });
 });
 
-app.get("/:productid", function (req, res) {
+app.get("/buy/:productid", function (req, res) {
   var chosen = req.params.productid;
   var obj = {}
   console.log(chosen, "need to integrate into query");
-  let query = connection.query('SELECT * FROM products WHERE item_id = 2', function (err, result) {
+  let sqlquery = `SELECT * FROM products WHERE item_id = ${chosen}`
+  let query = connection.query(sqlquery, function (err, result) {
     if (err) {
       throw err;
     } else {

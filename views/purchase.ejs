@@ -1,6 +1,6 @@
 <% include partials/header %>
     <header>
-        <h1 class="display-3 text-center my-4">Our Products</h1>
+        <h1 class="display-3 text-center my-4 bq-primary">Purchase Page</h1>
     </header>
     <div class="container">
         <div class="row">
@@ -28,6 +28,7 @@
                     </table>
 
         </div>
+
         <div class="row" id="product-cards">
                 <% print.forEach(function (product) { %>
 
@@ -42,9 +43,8 @@
                           <li class="list-group-item bg-light">In Stock: <%= product.instock_quantity %></li>
                         </ul>
                         <div class="card-body">
-                        <a href='/buy/<%= product.item_id %>' class="btn btn-success" onclick='myFunction(' + <%= product.item_id %> +')'</a>Purchase</a>
-
-                        <a href='/buy/<%= product.item_id %>' class="card-link">Another link</a>
+                        <a href="/purchase" class="btn btn-success" onclick='myFunction(' + <%= product.item_id %> +')'</a>Purchase</a>
+                        <a href="/:5" class="card-link">Another link</a>
                         </div>
                       </div>
                     <% }) %>
