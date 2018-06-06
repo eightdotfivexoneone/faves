@@ -3,9 +3,7 @@ const mysql = require("mysql");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
-const expressValidator = require('express-validator');
-const { check, validationResult } = require('express-validator/check');
-const { matchedData, sanitize } = require('express-validator/filter');
+
 
 // Config
 app.set("view engine", "ejs");
@@ -61,13 +59,6 @@ app.get("/", (req, results) => {
 
 app.post("/register", (request, results) => {
 
-// Enforce required fields using express-validator
-request.checkBody('product_name', 'Product Name is Required').notEmpty();
-request.checkBody('product_desc', 'Product Description is Required').notEmpty();
-request.checkBody('department_name', 'Department Name is Required').notEmpty();
-request.checkBody('instock_quantity', 'In-stock Quantity is Required').notEmpty();
-request.checkBody('consumer_price', 'Consumer Price is Required').notEmpty();
-request.checkBody('business_cost', 'Business Cost Quantity is Required').notEmpty();
 
 var track = {
   product_name: request.body.product_name,
@@ -122,28 +113,9 @@ app.get('/data', function(req, res){
 
 
 app.get("/purchase", (request, results) => {
-  // var track = {
-  //   product_name: request.body.product_name,
-  //   image_url: request.body.image_url,
-  //   product_desc: request.body.product_desc,
-  //   department_name: request.body.department_name,
-  //   instock_quantity: request.body.instock_quantity,
-  //   consumer_price: request.body.consumer_price,
-  //   business_cost: request.body.business_cost
-  // };
+
     console.log(JSON.stringify(request.body));
-    // var s = {email: req.body.email};
-    // console.log("Post Request Sent to Register", req.body);
-    // var qinsert = "INSERT INTO favorite_songs (song, artis, score, genre) VALUES("+ track.title +", "+ track.artist +", " + track.sc + "," + track.g + ")";
-    
-    // var sql = `INSERT INTO products SET ?`;
-    // let query = connection.query(sql, track, (err, result) => {
-    //   if(err){
-    //     throw err;
-    //   }
-    //   console.log(result);
-    // })
-    // 
+
     results.render('buy', request )
   });
   
@@ -214,6 +186,24 @@ app.get('/Ferrari', function(req, res){
                    
         }
     });
+});
+
+app.get("/:productid", function (req, res) {
+  var chosen = req.params.productid;
+  var obj = {}
+  console.log(chosen, "need to integrate into query");
+  let query = connection.query('SELECT * FROM products WHERE item_id = 2', function (err, result) {
+    if (err) {
+      throw err;
+    } else {
+      obj = {
+        print: result
+      };
+      // console.log(obj);
+      res.render('purchase', obj);
+    }
+  });
+
 });
 
 
