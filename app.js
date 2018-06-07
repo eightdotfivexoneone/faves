@@ -123,7 +123,6 @@ app.get('/manager', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('report1', obj);
     }
   });
@@ -139,7 +138,6 @@ app.get('/customer', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('customer', obj);
 
     }
@@ -155,7 +153,6 @@ app.get('/motorcars', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('products', obj);
 
     }
@@ -171,7 +168,6 @@ app.get('/groceries', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('products', obj);
 
     }
@@ -187,7 +183,6 @@ app.get('/toys', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('products', obj);
 
     }
@@ -202,7 +197,6 @@ app.get('/jaguar', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('products', obj);
 
     }
@@ -217,7 +211,6 @@ app.get('/Lambo', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('products', obj);
 
     }
@@ -232,7 +225,6 @@ app.get('/Ferrari', function (req, res) {
       obj = {
         print: result
       };
-      console.log(obj);
       res.render('products', obj);
 
     }
@@ -243,18 +235,23 @@ app.get("/buy/:productid", function (req, res) {
   var chosen = req.params.productid;
   var obj = {}
   let customerCost = priceCheck(chosen);
+  console.log("priceCheck returned the value below for product id: ", chosen);
+  console.log(priceCheck(chosen));
+  console.log("User starts out with this amount",userDollars, "type of is ",typeof(userDollars))
+  console.log("Customer Cost",customerCost)
   if (userDollars - customerCost < 0){
+    console.log("hit insufficient funds condition");
     res.render('insufficientfunds');
   }
   userDollars -= customerCost;
+  console.log("User Dollars should be less now ", userDollars);
+
   let sqlquery = `UPDATE products SET instock_quantity = instock_quantity - 1 WHERE item_id = ${chosen}`
   let query = connection.query(sqlquery, function (err, result) {
     if (err) {
       throw err;
     } else {
-      obj = {
-        print: result
-      };
+      console.log("doing the query for all fields to show decremented qty");
       let sql2 = `SELECT * FROM products WHERE item_id = ${chosen}`
       let query = connection.query(sql2, function (err, result) {
         if (err) {
@@ -277,6 +274,10 @@ function priceCheck(chosen) {
     if (err) {
       throw err;
     } else {
+      console.log("input item_id is ",chosen);
+      console.log(result);
+      console.log("parseFloat result", parseFloat(result))
+      debugger;
       return parseFloat(result);
     }
   });
