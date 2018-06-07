@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
 
-var userDollars = 1234600;
-
 
 // Config
 app.set("view engine", "ejs");
@@ -46,31 +44,16 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', function (req, res) {
-  var obj = {};
 
-  let query = connection.query('SELECT * FROM products order by department_name ASC, lifetime_sold DESC', function (err, result) {
-
-    if (err) {
-      throw err;
-    } else {
-      obj = {
-        print: result
-      };
-      console.log(obj);
-      res.render('products', obj);
-
-    }
-  });
-
-});
-
-app.get("/add", (req, results) => {
+app.get("/", (req, results) => {
   var q = "SELECT COUNT(*) AS count FROM products";
   connection.query(q, function (err, res) {
     if (err) throw err;
+    // console.log(res[0]);
     var count = res[0].count;
-    results.render('add', {
+    // results.send('<h1>You have ' + count +  ' favorite songs.</h1>');
+    // connection.end();
+    results.render('home', {
       data: count
     });
   });
@@ -78,7 +61,9 @@ app.get("/add", (req, results) => {
 
 
 
-app.post("/added", (request, results) => {
+app.post("/register", (request, results) => {
+
+
   var track = {
     product_name: request.body.product_name,
     image_url: request.body.image_url,
@@ -86,11 +71,14 @@ app.post("/added", (request, results) => {
     department_name: request.body.department_name,
     instock_quantity: request.body.instock_quantity,
     consumer_price: request.body.consumer_price,
-    business_cost: request.body.business_cost,
-    lifetime_sold: request.body.lifetime_sold
+    business_cost: request.body.business_cost
   };
 
   console.log(JSON.stringify(request.body));
+  // var s = {email: req.body.email};
+  // console.log("Post Request Sent to Register", req.body);
+  // var qinsert = "INSERT INTO favorite_songs (song, artis, score, genre) VALUES("+ track.title +", "+ track.artist +", " + track.sc + "," + track.g + ")";
+
   var sql = `INSERT INTO products SET ?`;
   let query = connection.query(sql, track, (err, result) => {
     if (err) {
@@ -99,7 +87,7 @@ app.post("/added", (request, results) => {
     console.log(result);
   })
   // 
-  results.render('added', {
+  results.render('test', {
     data: 5,
     product_name: request.body.product_name,
     image_url: request.body.image_url,
@@ -107,13 +95,40 @@ app.post("/added", (request, results) => {
     department_name: request.body.department_name,
     instock_quantity: request.body.instock_quantity,
     consumer_price: request.body.consumer_price,
-    business_cost: request.body.business_cost,
-    lifetime_sold: request.body.lifetime_sold
-    
+    business_cost: request.body.business_cost
   })
 });
 
-//------------Adam's management console code -------------//
+app.get('/data', function (req, res) {
+  var obj = {};
+
+  let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function (err, result) {
+
+    if (err) {
+      throw err;
+    } else {
+      obj = {
+        print: result
+      };
+      console.log(obj);
+      res.render('print', obj);
+
+    }
+  });
+
+});
+
+
+
+app.get("/purchase", (request, results) => {
+
+  console.log(JSON.stringify(request.body));
+
+  results.render('buy', request)
+});
+
+// Adam
+// Adam's management console code ==================================================================
 app.get('/manager', function (req, res) {
   var obj = {};
   let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function (err, result) {
@@ -129,7 +144,7 @@ app.get('/manager', function (req, res) {
   });
 });
 
-//------------ Bowden working here -------------//
+/////////////////////////////////Bowden working here
 app.get('/customer', function (req, res) {
   var obj = {};
   let query = connection.query('SELECT * FROM users WHERE user_id=1', function (err, result) {
@@ -145,54 +160,6 @@ app.get('/customer', function (req, res) {
     }
   });
 });
-
-app.get('/motorcars', function (req, res) {
-  var obj = {};
-  let query = connection.query("SELECT * FROM products WHERE instock_quantity > 0 AND department_name = 'motorcars' ORDER BY consumer_price DESC", function (err, result) {
-    if (err) {
-      throw err;
-    } else {
-      obj = {
-        print: result
-      };
-      console.log(obj);
-      res.render('products', obj);
-
-    }
-  });
-});
-
-app.get('/groceries', function (req, res) {
-  var obj = {};
-  let query = connection.query("SELECT * FROM products WHERE instock_quantity > 0 AND department_name = 'groceries' ORDER BY consumer_price DESC", function (err, result) {
-    if (err) {
-      throw err;
-    } else {
-      obj = {
-        print: result
-      };
-      console.log(obj);
-      res.render('products', obj);
-
-    }
-  });
-});
-
-app.get('/toys', function (req, res) {
-  var obj = {};
-  let query = connection.query("SELECT * FROM products WHERE instock_quantity > 0 AND department_name = 'toys' ORDER BY consumer_price DESC", function (err, result) {
-    if (err) {
-      throw err;
-    } else {
-      obj = {
-        print: result
-      };
-      console.log(obj);
-      res.render('products', obj);
-
-    }
-  });
-});
 app.get('/jaguar', function (req, res) {
   var obj = {};
   let query = connection.query("SELECT * FROM products WHERE instock_quantity > 0 AND product_name= 'Jaguar' ORDER BY consumer_price DESC", function (err, result) {
@@ -203,14 +170,14 @@ app.get('/jaguar', function (req, res) {
         print: result
       };
       console.log(obj);
-      res.render('products', obj);
+      res.render('print', obj);
 
     }
   });
 });
 app.get('/Lambo', function (req, res) {
   var obj = {};
-  let query = connection.query("SELECT * FROM products WHERE instock_quantity > 0 AND product_name= 'Lamborghini' ORDER BY consumer_price DESC", function (err, result) {
+  let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function (err, result) {
     if (err) {
       throw err;
     } else {
@@ -218,14 +185,14 @@ app.get('/Lambo', function (req, res) {
         print: result
       };
       console.log(obj);
-      res.render('products', obj);
+      res.render('print', obj);
 
     }
   });
 });
 app.get('/Ferrari', function (req, res) {
   var obj = {};
-  let query = connection.query("SELECT * FROM products WHERE instock_quantity > 0 AND product_name= 'Ferrari' ORDER BY consumer_price DESC", function (err, result) {
+  let query = connection.query('SELECT * FROM products WHERE instock_quantity > 0 ORDER BY consumer_price DESC', function (err, result) {
     if (err) {
       throw err;
     } else {
@@ -233,7 +200,7 @@ app.get('/Ferrari', function (req, res) {
         print: result
       };
       console.log(obj);
-      res.render('products', obj);
+      res.render('print', obj);
 
     }
   });
@@ -242,12 +209,8 @@ app.get('/Ferrari', function (req, res) {
 app.get("/buy/:productid", function (req, res) {
   var chosen = req.params.productid;
   var obj = {}
-  let customerCost = priceCheck(chosen);
-  if (userDollars - customerCost < 0){
-    res.render('insufficientfunds');
-  }
-  userDollars -= customerCost;
-  let sqlquery = `UPDATE products SET instock_quantity = instock_quantity - 1 WHERE item_id = ${chosen}`
+  console.log(chosen, "need to integrate into query");
+  let sqlquery = `SELECT * FROM products WHERE item_id = ${chosen}`
   let query = connection.query(sqlquery, function (err, result) {
     if (err) {
       throw err;
@@ -255,32 +218,13 @@ app.get("/buy/:productid", function (req, res) {
       obj = {
         print: result
       };
-      let sql2 = `SELECT * FROM products WHERE item_id = ${chosen}`
-      let query = connection.query(sql2, function (err, result) {
-        if (err) {
-          throw err;
-        } else {
-          obj = {
-            print: result
-          };
-          res.render('purchase', obj);
-        }
-      });
+      // console.log(obj);
+      res.render('purchase', obj);
     }
   });
 
 });
 
-function priceCheck(chosen) {
-  let sql = `SELECT consumer_price FROM products WHERE item_id = ${chosen}`;
-  let query = connection.query(sql, function (err, result) {
-    if (err) {
-      throw err;
-    } else {
-      return parseFloat(result);
-    }
-  });
-}
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
